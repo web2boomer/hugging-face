@@ -1,6 +1,10 @@
 module HuggingFace
   class EndpointsApi < BaseApi
 
+    RETRY_WAIT = 5
+    MAX_RETRY = 60
+    
+
     def request(endpoint_url:, input:, params: nil)
       retries = 0
 
@@ -13,7 +17,7 @@ module HuggingFace
         if retries < MAX_RETRY
           logger.debug('Service unavailable, retrying...')
           retries += 1
-          sleep 5
+          sleep RETRY_WAIT
           retry
         else
           raise exception
