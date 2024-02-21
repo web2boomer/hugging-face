@@ -3,6 +3,7 @@ module HuggingFace
     HOST = "https://api-inference.huggingface.co"
 
     # Retry connecting to the model for 1 minute
+    RETRY_WAIT = 1
     MAX_RETRY = 60
 
     # Default models that can be overriden by 'model' param
@@ -59,7 +60,7 @@ module HuggingFace
         if retries < MAX_RETRY
           logger.debug('Service unavailable, retrying...')
           retries += 1
-          sleep 1
+          sleep RETRY_WAIT
           retry
         else
           raise exception
